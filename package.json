@@ -1,0 +1,49 @@
+{
+  "name": "video-boomerang",
+  "version": "1.0.0",
+  "description": "Professional tool to create boomerang videos from MP4 files",
+  "main": "dist/index.js",
+  "bin": {
+    "boomerang": "./dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "ts-node src/index.ts",
+    "test": "jest",
+    "lint": "eslint src/**/*.ts",
+    "prepare": "npm run build"
+  },
+  "keywords": [
+    "video",
+    "boomerang",
+    "ffmpeg",
+    "cli",
+    "nodejs"
+  ],
+  "author": "Senior Engineer",
+  "license": "MIT",
+  "dependencies": {
+    "fluent-ffmpeg": "^2.1.2",
+    "commander": "^11.1.0",
+    "chalk": "^4.1.2",
+    "progress": "^2.0.3",
+    "fs-extra": "^11.1.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.8.0",
+    "@types/fluent-ffmpeg": "^2.1.24",
+    "@types/progress": "^2.0.5",
+    "@types/fs-extra": "^11.0.2",
+    "typescript": "^5.2.2",
+    "ts-node": "^10.9.1",
+    "eslint": "^8.50.0",
+    "@typescript-eslint/eslint-plugin": "^6.7.0",
+    "@typescript-eslint/parser": "^6.7.0",
+    "jest": "^29.7.0",
+    "@types/jest": "^29.5.5"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}
