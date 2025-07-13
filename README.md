@@ -1,273 +1,109 @@
-# 🎬 Video Boomerang Creator
+# Video Boomerang Creator
 
-A professional Node.js tool for creating boomerang videos from MP4 files. Built with TypeScript, FFmpeg, and engineered for reliability and ease of use.
+A simple tool to create boomerang videos from regular video files. Works both as a command-line tool and through a web interface.
 
-## ✨ Features
+## What it does
 
-- **High-Quality Processing**: Uses FFmpeg for professional video processing
-- **Multiple Quality Settings**: Choose from high, medium, or low quality output
-- **Smart Duration Handling**: Automatically handles long videos with optional trimming
-- **Progress Tracking**: Real-time progress bars and status updates
-- **Audio Support**: Option to preserve or remove audio
-- **Cross-Platform**: Works on Windows, macOS, and Linux
-- **CLI & Programmatic**: Use as a command-line tool or import as a library
-- **Error Recovery**: Robust error handling with helpful troubleshooting tips
+Takes your video file and creates a boomerang effect - plays forward, then backward, then loops. Think Instagram boomerangs but for any video format.
 
-## 🚀 Quick Start
-
-### Prerequisites
-
-- **Node.js** 16.0.0 or higher
-- **FFmpeg** installed and accessible in your PATH
-
-### Installation
+## Installation
 
 ```bash
-# Install dependencies
-npm install
-
-# Build the project
-npm run build
-
-# Install globally (optional)
-npm link
+pnpm install
 ```
 
-### Basic Usage
+## Usage
+
+### Web Interface
+
+The easiest way to use it:
 
 ```bash
-# Create a boomerang from input.mp4
-npx ts-node src/index.ts input.mp4
-
-# Specify output file and quality
-npx ts-node src/index.ts input.mp4 -o output_boomerang.mp4 -q high
-
-# Limit duration and preserve audio
-npx ts-node src/index.ts input.mp4 -d 3 -a
-
-# Show detailed progress
-npx ts-node src/index.ts input.mp4 -v
+pnpm run web
 ```
 
-## 📖 Command Line Options
+Open http://localhost:3000 in your browser and drag/drop your video file. You can adjust quality, frame rate, and other settings before processing.
 
-```
-Usage: boomerang <input> [options]
-
-Arguments:
-  input                    Input video file path
-
-Options:
-  -V, --version            Display version number
-  -o, --output <path>      Output video file path
-  -q, --quality <quality>  Output quality: high, medium, low (default: "medium")
-  -f, --fps <number>       Frame rate for output video
-  -d, --max-duration <seconds> Maximum duration in seconds
-  -a, --preserve-audio     Preserve audio in boomerang
-  -t, --temp-dir <path>    Temporary directory for processing
-  -v, --verbose           Enable verbose logging
-  --no-progress           Disable progress bar
-  -h, --help              Display help for command
-```
-
-## 💻 Programmatic Usage
-
-```typescript
-import { createBoomerang, BoomerangProcessor } from './src/boomerang'
-
-// Simple usage
-const result = await createBoomerang({
-  input: 'input.mp4',
-  output: 'output.mp4',
-  quality: 'high',
-  preserveAudio: false,
-  verbose: true,
-})
-
-if (result.success) {
-  console.log('Boomerang created:', result.outputPath)
-} else {
-  console.error('Error:', result.error?.message)
-}
-
-// Advanced usage with progress tracking
-const processor = new BoomerangProcessor({
-  input: 'input.mp4',
-  quality: 'medium',
-  maxDuration: 5,
-  preserveAudio: true,
-  verbose: false,
-})
-
-processor.onProgress((progress) => {
-  console.log(
-    `${progress.stage}: ${progress.progress}% - ${progress.currentStep}`
-  )
-})
-
-const result = await processor.process()
-```
-
-## ⚙️ Configuration Options
-
-| Option          | Type                          | Default          | Description                    |
-| --------------- | ----------------------------- | ---------------- | ------------------------------ |
-| `input`         | `string`                      | **required**     | Path to input video file       |
-| `output`        | `string`                      | `auto-generated` | Path for output video file     |
-| `quality`       | `'high' \| 'medium' \| 'low'` | `'medium'`       | Output video quality           |
-| `fps`           | `number`                      | `original`       | Frame rate for output video    |
-| `maxDuration`   | `number`                      | `unlimited`      | Maximum duration in seconds    |
-| `preserveAudio` | `boolean`                     | `false`          | Whether to include audio       |
-| `tempDir`       | `string`                      | `system temp`    | Temporary processing directory |
-| `verbose`       | `boolean`                     | `false`          | Enable detailed logging        |
-
-## 🎨 Quality Settings
-
-- **High**: 8000k bitrate, medium preset (best quality, slower processing)
-- **Medium**: 4000k bitrate, fast preset (balanced quality/speed)
-- **Low**: 2000k bitrate, faster preset (smaller files, faster processing)
-
-## 📁 Supported Formats
-
-**Input formats**: `.mp4`, `.avi`, `.mov`, `.mkv`, `.webm`, `.m4v`
-**Output format**: `.mp4` (H.264)
-
-## 🛠️ FFmpeg Installation
-
-### Windows
-
-1. Download from [https://ffmpeg.org/download.html](https://ffmpeg.org/download.html)
-2. Extract to a folder (e.g., `C:\ffmpeg`)
-3. Add `C:\ffmpeg\bin` to your PATH environment variable
-
-### macOS
+### Command Line
 
 ```bash
-# Using Homebrew
-brew install ffmpeg
+# Basic usage
+npx boomerang input.mp4
 
-# Using MacPorts
-sudo port install ffmpeg
+# With custom settings
+npx boomerang input.mp4 -o output.mp4 -q high -f 30 -d 5
+
+# See all options
+npx boomerang --help
 ```
 
-### Linux
+#### Options
+
+- `-o, --output <path>` - Where to save the output
+- `-q, --quality <level>` - high, medium, or low (default: medium)
+- `-f, --fps <number>` - Frame rate
+- `-d, --max-duration <seconds>` - Trim video to this length
+- `-a, --preserve-audio` - Keep audio (off by default)
+- `-v, --verbose` - Show detailed progress
+
+## Development
 
 ```bash
-# Ubuntu/Debian
-sudo apt update && sudo apt install ffmpeg
+# Start web server in dev mode
+pnpm run web
 
-# CentOS/RHEL
-sudo yum install ffmpeg
+# Build for production
+pnpm run build && pnpm run web:prod
 
-# Arch Linux
-sudo pacman -S ffmpeg
+# CLI development
+pnpm run dev
 ```
 
-## 📊 Performance
+## Requirements
 
-Processing times vary based on:
+- Node.js 16+
+- FFmpeg (needs to be in your PATH)
 
-- Input video duration and resolution
-- Quality settings
-- System hardware (CPU, disk speed)
-- FFmpeg version and configuration
+## How it works
 
-**Typical performance** (on modern hardware):
+1. Takes your input video
+2. Creates a reversed version
+3. Concatenates them together
+4. Outputs as MP4
 
-- 1080p, 5-second video: ~10-30 seconds
-- 720p, 3-second video: ~5-15 seconds
-- 480p, 2-second video: ~3-8 seconds
+Pretty straightforward.
 
-## 🔧 Development
+## File support
 
-```bash
-# Install dependencies
-npm install
+**Input**: MP4, AVI, MOV, MKV, WebM, M4V
+**Output**: MP4
 
-# Start development
-npm run dev
+Web interface has a 500MB file limit. CLI doesn't have a built-in limit.
 
-# Build project
-npm run build
+## Troubleshooting
 
-# Run tests
-npm test
+**FFmpeg not found**: Install FFmpeg and make sure it's in your PATH
 
-# Lint code
-npm run lint
-```
+- Windows: Download from ffmpeg.org
+- macOS: `brew install ffmpeg`
+- Linux: `sudo apt install ffmpeg`
 
-## 📝 Examples
+**WebSocket issues**: Refresh the page or try a different browser
 
-### Basic Boomerang
+**Large files**: Use the CLI for better performance with big files
 
-```bash
-# Create a simple boomerang
-boomerang vacation.mp4
-# Output: vacation_boomerang.mp4
-```
+## API
 
-### High-Quality Short Clip
+If you want to integrate this into something else:
 
-```bash
-# High quality, 2-second maximum duration
-boomerang dance.mp4 -q high -d 2 -o dance_loop.mp4
-```
+- `POST /api/upload` - Upload and process video
+- `GET /api/health` - Check if server is running
+- `GET /output/:filename` - Download processed video
 
-### Social Media Optimized
+## Contributing
 
-```bash
-# Medium quality, 3 seconds, no audio (perfect for Instagram/TikTok)
-boomerang celebration.mp4 -q medium -d 3 -o celebration_social.mp4
-```
+PRs welcome. The code is pretty straightforward - Express server, WebSocket for progress updates, FFmpeg for video processing.
 
-### Preserve Original Audio
+## License
 
-```bash
-# Keep audio for videos with important sound
-boomerang music_video.mp4 -a -q high -o music_boomerang.mp4
-```
-
-## 🐛 Troubleshooting
-
-### FFmpeg Not Found
-
-- **Windows**: Ensure FFmpeg is in your PATH
-- **macOS/Linux**: Install via package manager or compile from source
-- Test with: `ffmpeg -version`
-
-### Memory Issues
-
-- Use lower quality settings for large videos
-- Specify a temp directory with more space: `-t /path/to/large/disk`
-- Process shorter segments with `-d` option
-
-### Slow Processing
-
-- Lower quality setting: `-q low`
-- Reduce frame rate: `-f 24`
-- Use SSD for temp directory
-- Limit duration: `-d 5`
-
-## 📄 License
-
-MIT License - see [LICENSE](LICENSE) file for details.
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests for new functionality
-5. Submit a pull request
-
-## 🙏 Acknowledgments
-
-- Built with [FFmpeg](https://ffmpeg.org/) - the leading multimedia framework
-- Uses [fluent-ffmpeg](https://github.com/fluent-ffmpeg/node-fluent-ffmpeg) for Node.js integration
-- CLI powered by [Commander.js](https://github.com/tj/commander.js)
-- Beautiful output with [Chalk](https://github.com/chalk/chalk)
-
----
-
-**Made with ❤️ by a Senior 10x Engineer**
+MIT

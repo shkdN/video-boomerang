@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Video Boomerang Creator</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>🎬 Video Boomerang Creator</h1>
+        <p>Transform your videos into mesmerizing boomerang effects</p>
+      </header>
+
+      <main>
+        <!-- Upload Section -->
+        <section class="upload-section" id="uploadSection">
+          <div class="upload-area" id="uploadArea">
+            <div class="upload-content">
+              <div class="upload-icon">📁</div>
+              <h3>Drag & Drop Your Video</h3>
+              <p>or <span class="browse-text">browse files</span></p>
+              <p class="supported-formats">
+                Supports MP4, AVI, MOV, MKV, WebM, M4V
+              </p>
+              <input type="file" id="videoInput" accept="video/*" hidden />
+            </div>
+          </div>
+
+          <div class="upload-info" id="uploadInfo" style="display: none">
+            <div class="file-info">
+              <div class="file-icon">🎥</div>
+              <div class="file-details">
+                <h4 id="fileName"></h4>
+                <p id="fileSize"></p>
+              </div>
+              <button class="remove-file" id="removeFile">×</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- Configuration Section -->
+        <section
+          class="config-section"
+          id="configSection"
+          style="display: none"
+        >
+          <h3>Configuration</h3>
+          <div class="config-grid">
+            <div class="config-group">
+              <label for="quality">Quality</label>
+              <select id="quality">
+                <option value="low">Low (Faster)</option>
+                <option value="medium" selected>Medium (Balanced)</option>
+                <option value="high">High (Best Quality)</option>
+              </select>
+            </div>
+
+            <div class="config-group">
+              <label for="fps">Frame Rate (FPS)</label>
+              <input
+                type="number"
+                id="fps"
+                min="15"
+                max="60"
+                step="1"
+                placeholder="Auto"
+              />
+            </div>
+
+            <div class="config-group">
+              <label for="maxDuration">Max Duration (seconds)</label>
+              <input
+                type="number"
+                id="maxDuration"
+                min="0.5"
+                max="30"
+                step="0.1"
+                placeholder="No limit"
+              />
+            </div>
+
+            <div class="config-group">
+              <label class="checkbox-label">
+                <input type="checkbox" id="preserveAudio" />
+                <span class="checkmark"></span>
+                Preserve Audio
+              </label>
+            </div>
+          </div>
+
+          <button class="process-btn" id="processBtn">
+            <span>Create Boomerang</span>
+            <div class="btn-spinner" style="display: none"></div>
+          </button>
+        </section>
+
+        <!-- Progress Section -->
+        <section
+          class="progress-section"
+          id="progressSection"
+          style="display: none"
+        >
+          <h3>Processing Your Video</h3>
+          <div class="progress-container">
+            <div class="progress-bar">
+              <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="progress-info">
+              <span id="progressPercent">0%</span>
+              <span id="progressStage">Starting...</span>
+            </div>
+          </div>
+          <div class="progress-details">
+            <p id="progressStep">Initializing...</p>
+            <p id="progressFileName"></p>
+          </div>
+        </section>
+
+        <!-- Result Section -->
+        <section
+          class="result-section"
+          id="resultSection"
+          style="display: none"
+        >
+          <div class="result-success" id="resultSuccess" style="display: none">
+            <div class="result-icon">✅</div>
+            <h3>Boomerang Created Successfully!</h3>
+            <div class="result-info">
+              <p>
+                <strong>Processing time:</strong>
+                <span id="processingTime"></span>
+              </p>
+              <p>
+                <strong>Video dimensions:</strong>
+                <span id="videoDimensions"></span>
+              </p>
+              <p><strong>Frame rate:</strong> <span id="videoFps"></span></p>
+            </div>
+            <div class="result-actions">
+              <button class="download-btn" id="downloadBtn">
+                <span>Download Boomerang</span>
+                📥
+              </button>
+              <button class="new-video-btn" id="newVideoBtn">
+                Create Another
+              </button>
+            </div>
+          </div>
+
+          <div class="result-error" id="resultError" style="display: none">
+            <div class="result-icon">❌</div>
+            <h3>Processing Failed</h3>
+            <p id="errorMessage"></p>
+            <button class="try-again-btn" id="tryAgainBtn">Try Again</button>
+          </div>
+        </section>
+      </main>
+
+      <footer>
+        <p>
+          Built with ❤️ using FFmpeg •
+          <a href="https://github.com" target="_blank">View on GitHub</a>
+        </p>
+      </footer>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
